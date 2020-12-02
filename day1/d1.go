@@ -1,25 +1,14 @@
 package day1
 
 import (
-	"io/ioutil"
 	"log"
 	"strconv"
 	"strings"
 )
 
-func readInput() []string {
-	// Should fit in memory easily
-	data, err := ioutil.ReadFile("./day1/input.txt")
-	if err != nil {
-		log.Fatal(err)
-	}
-	return strings.Split(string(data), "\n")
-}
-
 // Solve the day
-func Solve() int {
+func Solve(lines []string) int {
 	out := 0
-	lines := readInput()
 	nLines := len(lines)
 
 	asInts := make([]int32, nLines)
