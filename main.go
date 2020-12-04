@@ -6,11 +6,11 @@ import (
 	"log"
 	"strings"
 
-	"github.com/lameorc/aoc_2020/day3"
+	"github.com/lameorc/aoc_2020/day4"
 )
 
 func readInput(day string) []string {
-	filePath := fmt.Sprintf("./%s/input.txt", day)
+	filePath := fmt.Sprintf("./%s/input_test.txt", day)
 	// Should fit in memory easily
 	data, err := ioutil.ReadFile(filePath)
 	if err != nil {
@@ -29,7 +29,10 @@ func main() {
 	// fmt.Println(day2.Solve(in))
 
 	// day3
-	in := readInput("day3")
-	fmt.Println(day3.Solve(in))
+	// in := readInput("day3")
+	// fmt.Println(day3.Solve(in))
 
+	// day4
+	in := readInput("day4")
+	day4.Solve(in)
 }
