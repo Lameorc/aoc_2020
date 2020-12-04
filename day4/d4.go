@@ -69,6 +69,9 @@ func checkYear(v string, min int, max int) bool {
 }
 
 func checkHeight(v string) bool {
+	if len(v) <= 2 {
+		return false
+	}
 	unit := v[len(v)-2:]
 	val, err := strconv.Atoi(v[:len(v)-2])
 	if err != nil {
@@ -102,7 +105,10 @@ func (p *passport) isValidPart2() bool {
 		log.Println("Not valid due to eyr")
 		return false
 	}
-	// TODO: Hgt
+
+	if !checkHeight(p.Hgt) {
+		return false
+	}
 
 	asRunes := []rune(p.Hcl)
 	_, err := strconv.ParseInt(string(asRunes[1:]), 16, 32)
