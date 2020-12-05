@@ -150,6 +150,7 @@ func part1(ps []passport) {
 	fmt.Printf("Part 2: %d", valid2)
 }
 
+// Solve ...
 func Solve(input []string) {
 	p := createPassports(input)
 	part1(p)
