@@ -19,6 +19,23 @@ func readInput(day string) []string {
 	return strings.Split(string(data), "\n")
 }
 
+// Splits a given input into two dimensional slice, the first dimension is a group and the
+// second are its elements. Expects newline after the last one
+func toGroups(input []string) [][]string {
+	groups := make([][]string, 0)
+	currentGroup := make([]string, 0)
+	for _, l := range input {
+		if strings.TrimSpace(l) == "" {
+			// going to next group
+			groups = append(groups, currentGroup)
+			currentGroup = make([]string, 0)
+			continue
+		}
+		currentGroup = append(currentGroup, l)
+	}
+	return groups
+}
+
 func main() {
 	// day1
 	// in := readInput("day1")
