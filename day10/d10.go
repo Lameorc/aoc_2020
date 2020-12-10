@@ -57,9 +57,11 @@ func newGraph(a adapters, r deviceRating) graph {
 			next := node + s
 			if a[next] {
 				e = append(e, next)
-			} else if next == int(r) {
+			}
+			if next == int(r) {
 				e = append(e, int(r))
-			} else if node == s {
+			}
+			if node == s {
 				g[0] = append(g[0], node)
 			}
 		}
