@@ -10,7 +10,7 @@ import (
 )
 
 func readInput(day string) []string {
-	filePath := fmt.Sprintf("./%s/input_test.txt", day)
+	filePath := fmt.Sprintf("./%s/input.txt", day)
 	// Should fit in memory easily
 	data, err := ioutil.ReadFile(filePath)
 	if err != nil {

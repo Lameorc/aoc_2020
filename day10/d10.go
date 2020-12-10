@@ -70,28 +70,29 @@ func newGraph(a adapters, r deviceRating) graph {
 	return g
 }
 
-func (g graph) countPaths(idx int, r deviceRating) int {
+func (g graph) countPaths(idx int, r deviceRating, visited map[int]int) int {
 	if idx == int(r) {
 		return 1
 	}
 	valid := 0
 	for _, n := range g[idx] {
-		c := g.countPaths(n, r)
-		if c >= 1 {
-			valid = valid + c
+		if visited[n] == 0 {
+			visited[n] = g.countPaths(n, r, visited)
 		}
+		valid = valid + visited[n]
 	}
 	return valid
 }
 
 func part2(a adapters, r deviceRating) int {
 	g := newGraph(a, r)
-	log.Print("Got graph:")
-	for k, v := range g {
-		log.Printf("\t%d: %d", k, v)
-	}
+	// log.Print("Got graph:")
+	// for k, v := range g {
+	// 	log.Printf("\t%d: %d", k, v)
+	// }
 
-	return g.countPaths(0, r)
+	v := make(map[int]int)
+	return g.countPaths(0, r, v)
 }
 
 // Solve the day's problem
