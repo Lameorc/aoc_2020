@@ -48,13 +48,11 @@ func (s seatingArea) print() {
 
 func tick(s seatingArea) seatingArea {
 	// make a copy modifying as needed
-	maxX := len(s)
-	newS := make(seatingArea, maxX)
+	newS := make(seatingArea, len(s))
 	for i, r := range s {
-		maxY := len(r)
-		row := make([]rune, maxY)
+		row := make([]rune, len(r))
 		for j := range r {
-			row[j] = getNewTileValue(&s, i, j, maxX, maxY)
+			row[j] = getNewTileValue(&s, i, j)
 		}
 		newS[i] = row
 	}
@@ -62,45 +60,71 @@ func tick(s seatingArea) seatingArea {
 	return newS
 }
 
-func getNewTileValue(s *seatingArea, x, y, maxX, maxY int) rune {
+type direction [2]int
+
+var directions = map[string]direction{
+	"N":  {0, -1},
+	"S":  {0, 1},
+	"E":  {1, 0},
+	"W":  {-1, 0},
+	"NE": {1, -1},
+	"NW": {-1, -1},
+	"SE": {1, 1},
+	"SW": {-1, 1},
+}
+
+func (s *seatingArea) directionOccupied(d direction, x, y, sight int) bool {
+	maxX := len(*s)
+	maxY := len((*s)[0])
+	for i := 1; i <= sight; i++ {
+		newX := x + (d[0] * i)
+		if newX < 0 || newX >= maxX {
+			return false
+		}
+		newY := y + (d[1] * i)
+		// don't check self
+		if x == newX && y == newY {
+			return false
+		}
+		// bounds
+		if newY < 0 || newY >= maxY {
+			return false
+		}
+
+		// finally check the tile
+		switch (*s)[newX][newY] {
+		case '#':
+			return true
+		case 'L':
+			return false
+		default:
+			continue
+		}
+	}
+	return false
+}
+
+func (s *seatingArea) occupiedAdjacent(x, y int) int {
+	adjacentOccupied := 0
+
+	for _, modifiers := range directions {
+		// if s.directionOccupied(modifiers, x, y, 1) { // ~part_1
+		if s.directionOccupied(modifiers, x, y, 100) {
+			adjacentOccupied++
+		}
+	}
+	return adjacentOccupied
+}
+
+func getNewTileValue(s *seatingArea, x, y int) rune {
 	initial := (*s)[x][y]
 	if initial == '.' {
 		return '.'
 	}
-
-	adjacentOccupied := 0
-
-	// assummes symetrical
-	visionRangeX, visionRangeY := 1, 1 // part1
-	//visionRange := maxX
-
-	for k := -visionRangeX; k <= visionRangeX; k++ {
-		newX := k + x
-		// bounds
-		if newX < 0 || newX >= maxX {
-			continue
-		}
-
-		for l := -visionRangeY; l <= visionRangeY; l++ {
-			newY := l + y
-			// don't check self
-			if x == newX && y == newY {
-				continue
-			}
-			// bounds
-			if newY < 0 || newY >= maxY {
-				continue
-			}
-
-			// finally check the tile
-			if (*s)[newX][newY] == '#' {
-				adjacentOccupied++
-			}
-		}
-	}
-
+	adjacentOccupied := s.occupiedAdjacent(x, y)
 	var n rune
-	if initial == '#' && adjacentOccupied >= 4 {
+	// if initial == '#' && adjacentOccupied >= 4 { // ~part_1
+	if initial == '#' && adjacentOccupied >= 5 {
 		n = 'L'
 	} else if initial == 'L' && adjacentOccupied == 0 {
 		n = '#'
@@ -124,5 +148,5 @@ func Solve(input []string) {
 		}
 	}
 
-	log.Printf("Part 1: %d", s.occupiedSeats())
+	log.Printf("Part 2: %d", s.occupiedSeats())
 }
