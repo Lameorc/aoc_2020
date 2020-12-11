@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/lameorc/aoc_2020/day10"
+	"github.com/lameorc/aoc_2020/day11"
 )
 
 func readInput(day string) []string {
@@ -74,6 +74,10 @@ func main() {
 	// day9.Solve(in)
 
 	// day 10
-	in := readInput("day10")
-	day10.Solve(in)
+	// in := readInput("day10")
+	// day10.Solve(in)
+
+	// day 11
+	in := readInput("day11")
+	day11.Solve(in)
 }
