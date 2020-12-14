@@ -6,7 +6,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/lameorc/aoc_2020/day13"
+	"github.com/lameorc/aoc_2020/day14"
 )
 
 func readInput(day string) []string {
@@ -37,6 +37,7 @@ func toGroups(input []string) [][]string {
 }
 
 func main() {
+	log.SetFlags(log.LstdFlags | log.Lshortfile)
 	// day1
 	// in := readInput("day1")
 	// fmt.Println(day1.Solve(in))
@@ -85,7 +86,11 @@ func main() {
 	// in := readInput("day12")
 	// day12.Solve(in)
 
-	// day 12
-	in := readInput("day13")
-	day13.Solve(in)
+	// day 13
+	// in := readInput("day13")
+	// day13.Solve(in)
+
+	// day 14
+	in := readInput("day14")
+	day14.Solve(in)
 }
